@@ -15,6 +15,8 @@ struct Node {
 
 typedef struct Node Node;
 
+void listAll(Node *node);
+
 int main(int argc, const char * argv[]) {
     
     Node node1;
@@ -38,6 +40,16 @@ int main(int argc, const char * argv[]) {
     node5.value = 5;
     node5.next = NULL;
 
-    printf("node1 value is %d,\nnode2 value is %d,\nnode3 value is %d\n", node1.value, node1.next->value, node1.next->next->value);
+    listAll(&node1);
+    // printf("node1 value is %d,\nnode2 value is %d,\nnode3 value is %d\n", node1.value, node1.next->value, node1.next->next->value);
     return 0;
 }
+
+void listAll(Node *node) {
+    while (node->next != NULL) {
+        printf("%d ", node->value);
+        node = node->next;
+    }
+    printf("%d\n", node->value);
+}
+
