@@ -21,6 +21,7 @@ Node *searchValue(Node *node, int val);
 void insertToTheEnd(Node *node, Node *newNode);
 void removeListItem(Node *node, Node *nodeToDelete);
 Node *initListItem(int val);
+void deallocation(Node *node);
 
 int main(int argc, const char * argv[]) {
     Node *node1 = initListItem(1);
@@ -46,13 +47,16 @@ int main(int argc, const char * argv[]) {
         printf("%d is not found in this list!\n", valueUserInput);
     } else {
         printf("Search result %d found at %p\n", searchResult->value, searchResult);
+        printf("%p\n", node2);
     }
     
     insertToTheEnd(node1, newNode);
     listAll(node1);
     
-    removeListItem(node1, newNode);
+    removeListItem(node1, node2);
     listAll(node1);
+    
+    deallocation(node1);
     
     return 0;
 }
@@ -86,6 +90,7 @@ void insertToTheEnd(Node *node, Node *newNode) {
 void removeListItem(Node *node, Node *nodeToDelete) {
     if (node == nodeToDelete) {
         node->next = NULL;
+        free(node);
     } else {
         while (node->next != nodeToDelete) {
             node = node->next;
@@ -93,8 +98,10 @@ void removeListItem(Node *node, Node *nodeToDelete) {
         if (nodeToDelete->next != NULL) {
             node->next = node->next->next;//nodeToDelete->next;
             nodeToDelete->next = NULL;
+            free(nodeToDelete);
         } else {
             node->next = NULL;
+            free(nodeToDelete);
         }
     }
 }
@@ -103,5 +110,14 @@ Node *initListItem(int val) {
     Node *node = (Node *) malloc(sizeof(Node));
     node->value = val;
     return node;
+}
+
+void deallocation(Node *node) {
+    while (node->next != NULL) {
+        Node *previousNode = node;
+        node = node->next;
+        free(previousNode);
+    }
+    free(node);
 }
 
