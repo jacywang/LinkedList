@@ -16,6 +16,7 @@ struct Node {
 typedef struct Node Node;
 
 void listAll(Node *node);
+Node * searchValue(Node *node, int val);
 
 int main(int argc, const char * argv[]) {
     
@@ -40,8 +41,20 @@ int main(int argc, const char * argv[]) {
     node5.value = 5;
     node5.next = NULL;
 
+    printf("All values in the list: ");
     listAll(&node1);
-    // printf("node1 value is %d,\nnode2 value is %d,\nnode3 value is %d\n", node1.value, node1.next->value, node1.next->next->value);
+    
+    int valueUserInput;
+    printf("Input the value to find:");
+    scanf("%d", &valueUserInput);
+    
+    Node *searchResult = searchValue(&node1, valueUserInput);
+    if (searchResult == NULL) {
+        printf("%d is not found in this list!\n", valueUserInput);
+    } else {
+        printf("Search result %d found at %p\n", searchResult->value, searchResult);
+    }
+    
     return 0;
 }
 
@@ -53,3 +66,12 @@ void listAll(Node *node) {
     printf("%d\n", node->value);
 }
 
+Node * searchValue(Node *node, int val){
+    while (node->value != val) {
+        node = node->next;
+        if (node == NULL) {
+            break;
+        }
+    }
+    return node;
+}
