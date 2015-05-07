@@ -17,6 +17,7 @@ typedef struct Node Node;
 
 void listAll(Node *node);
 Node * searchValue(Node *node, int val);
+void insertToTheEnd(Node *firstNode, Node *newNode);
 
 int main(int argc, const char * argv[]) {
     
@@ -25,6 +26,7 @@ int main(int argc, const char * argv[]) {
     Node node3;
     Node node4;
     Node node5;
+    Node newNode;
     
     node1.value = 1;
     node1.next = &node2;
@@ -40,6 +42,8 @@ int main(int argc, const char * argv[]) {
     
     node5.value = 5;
     node5.next = NULL;
+    
+    newNode.value = 6;
 
     printf("All values in the list: ");
     listAll(&node1);
@@ -54,6 +58,9 @@ int main(int argc, const char * argv[]) {
     } else {
         printf("Search result %d found at %p\n", searchResult->value, searchResult);
     }
+    
+    insertToTheEnd(&node1, &newNode);
+    listAll(&node1);
     
     return 0;
 }
@@ -74,4 +81,12 @@ Node * searchValue(Node *node, int val){
         }
     }
     return node;
+}
+
+void insertToTheEnd(Node *node, Node *newNode) {
+    while (node->next != NULL) {
+        node = node->next;
+    }
+    node->next = newNode;
+    newNode->next = NULL;
 }
