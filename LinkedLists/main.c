@@ -16,8 +16,9 @@ struct Node {
 typedef struct Node Node;
 
 void listAll(Node *node);
-Node * searchValue(Node *node, int val);
-void insertToTheEnd(Node *firstNode, Node *newNode);
+Node *searchValue(Node *node, int val);
+void insertToTheEnd(Node *node, Node *newNode);
+void removeListItem(Node *node, Node *nodeToDelete);
 
 int main(int argc, const char * argv[]) {
     
@@ -62,6 +63,9 @@ int main(int argc, const char * argv[]) {
     insertToTheEnd(&node1, &newNode);
     listAll(&node1);
     
+    removeListItem(&node1, &newNode);
+    listAll(&node1);
+    
     return 0;
 }
 
@@ -90,3 +94,20 @@ void insertToTheEnd(Node *node, Node *newNode) {
     node->next = newNode;
     newNode->next = NULL;
 }
+
+void removeListItem(Node *node, Node *nodeToDelete) {
+    if (node == nodeToDelete) {
+        node->next = NULL;
+    } else {
+        while (node->next != nodeToDelete) {
+            node = node->next;
+        }
+        if (nodeToDelete->next != NULL) {
+            node->next = nodeToDelete->next;
+            nodeToDelete->next = NULL;
+        } else {
+            node->next = NULL;
+        }
+    }
+}
+
